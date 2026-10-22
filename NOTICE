@@ -1,0 +1,50 @@
+dsh-hy-memory
+Copyright 2026 The dsh-hy-memory authors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+================================================================================
+Third-party components
+================================================================================
+
+Tencent Hy-Memory (hy-memory)
+  Version used: 2.0.4 (PyPI), source baseline commit
+  8f1c4045e913566a6f40eb4451d68218b2307773
+  License: Apache-2.0
+  Copyright: Tencent Hunyuan
+  Use: the Python memory engine behind the `hy-memory` backend. It is a runtime
+  dependency installed into the local virtual environment; no source is vendored
+  into this repository.
+
+DeepSeek Harness (@deepseek-ai/dsh-*)
+  Version used: 0.2.1-rc.2 (packaged desktop application)
+  License: MIT
+  Copyright: DeepSeek
+  Use: the Cordis plugin host, session event stream, tool registry, prompt
+  system and Web Client slot system that this plugin extends. It is an external
+  runtime; no source is vendored into this repository.
+
+Node.js
+  License: MIT. Used as the host runtime (bundled with the DSH desktop app).
+
+React and React DOM
+  License: MIT. Used by the Memory Studio SPA.
+
+Vite, esbuild, TypeScript, Vitest, Playwright, oxlint, zod
+  Licenses: MIT / Apache-2.0 as declared by each package. Development-time
+  tooling only; not redistributed.
+
+Python transitive dependencies of hy-memory (chromadb, kuzu, tiktoken, openai,
+pydantic, numpy, scikit-learn, jieba, rank-bm25, json-repair, langdetect and
+their own transitive dependencies)
+  Licenses: as declared by each package (predominantly Apache-2.0 and MIT;
+  chromadb is Apache-2.0). Installed by pip, not vendored here. Review the
+  installed distributions before redistribution.
+
+================================================================================
+Artwork
+================================================================================
+
+packages/ui-client/icon.svg and the inline favicon in
+packages/ui-client/index.html were authored for this project and are released
+under the same Apache-2.0 license.

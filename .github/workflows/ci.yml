@@ -1,0 +1,105 @@
+name: Offline CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-checks:
+    name: Offline checks (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python-path: .venv/bin/python
+          - os: windows-latest
+            python-path: .venv/Scripts/python.exe
+    defaults:
+      run:
+        shell: bash
+    env:
+      UV_PROJECT_ENVIRONMENT: ${{ github.workspace }}/.venv
+      HYMEM_PYTHON: ${{ github.workspace }}/${{ matrix.python-path }}
+      HYMEM_BUNDLE_DIR: ${{ runner.temp }}/hymem-bundle
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Node 24 and pnpm
+        uses: pnpm/setup@v1
+        with:
+          version: 11.28.5
+          runtime: node@24
+          cache: true
+          install: false
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10.3.0
+        with:
+          version: '0.13.4'
+          enable-cache: true
+
+      - name: Install locked Node dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install locked Python test dependencies
+        run: uv sync --locked --extra test
+
+      - name: Typecheck host, scripts and UI
+        run: pnpm run typecheck
+
+      - name: Lint TypeScript and JavaScript
+        run: pnpm run lint
+
+      - name: Lint Python
+        run: pnpm run lint:python
+
+      - name: Test TypeScript
+        run: pnpm test
+
+      - name: Test Python
+        run: pnpm test:python
+
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+        if: runner.os == 'Linux'
+
+      - name: Install Playwright Chromium on Windows
+        run: pnpm exec playwright install chromium
+        if: runner.os == 'Windows'
+
+      - name: Build Studio UI
+        run: pnpm run build:studio
+
+      - name: Build isolated bundle and verify its checksums
+        run: node scripts/build.mjs --out "$HYMEM_BUNDLE_DIR"
+
+      - name: Run isolated mock E2E
+        run: pnpm run test:e2e
+
+      - name: Archive a manual release candidate
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v6
+        with:
+          name: hymem-bundle-${{ runner.os }}-node24-python3.12
+          path: ${{ env.HYMEM_BUNDLE_DIR }}/
+          if-no-files-found: error
+          retention-days: 14
+
+  dependency-review:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/dependency-review-action@v5.0.0

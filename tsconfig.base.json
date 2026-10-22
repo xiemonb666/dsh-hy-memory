@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noImplicitAny": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": false,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": false,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@dsh-hy-memory/contracts": ["packages/contracts/src/index.ts"],
+      "@dsh-hy-memory/governance": ["packages/governance/src/index.ts"],
+      "@dsh-hy-memory/retrieval": ["packages/retrieval/src/index.ts"],
+      "@dsh-hy-memory/coding-trace": ["packages/coding-trace/src/index.ts"],
+      "@dsh-hy-memory/host-plugin": ["packages/host-plugin/src/index.ts"],
+      "@dsh-hy-memory/testing": ["packages/testing/src/index.ts"]
+    }
+  },
+  "include": ["packages/*/src/**/*.ts", "packages/*/src/**/*.tsx", "tests/**/*.ts", "scripts/**/*.mjs"],
+  "exclude": ["node_modules", ".upstream", "dist", "artifacts"]
+}

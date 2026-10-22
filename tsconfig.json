@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": ["packages/*/src/**/*.ts", "packages/*/src/**/*.tsx", "tests/**/*.ts", "packages/*/test/**/*.ts", "scripts/**/*.ts"],
+  "exclude": ["node_modules", ".upstream", "**/dist/**", "artifacts", "packages/ui-client/**"]
+}

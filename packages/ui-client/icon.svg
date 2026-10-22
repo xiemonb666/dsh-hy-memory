@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="HyMemory Studio">
+  <rect width="64" height="64" rx="14" fill="#1f6feb"/>
+  <path d="M16 44V20h6l10 12 10-12h6v24h-6V30l-10 12-10-12v14z" fill="#fff"/>
+  <circle cx="48" cy="18" r="4" fill="#7ee787"/>
+</svg>

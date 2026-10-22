@@ -1,0 +1,54 @@
+{
+  "name": "dsh-hy-memory-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "HyMemory Studio for DeepSeek Harness - native long-term memory plugin",
+  "license": "Apache-2.0",
+  "type": "module",
+  "packageManager": "pnpm@11.28.5",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:studio": "node node_modules/vite/bin/vite.js build --config packages/ui-client/vite.config.ts",
+    "typecheck": "node node_modules/typescript/bin/tsc -p tsconfig.json --noEmit && node node_modules/typescript/bin/tsc -p packages/ui-client/tsconfig.json --noEmit",
+    "typecheck:ui": "node node_modules/typescript/bin/tsc -p packages/ui-client/tsconfig.json --noEmit",
+    "lint": "node node_modules/oxlint/bin/oxlint --deny-warnings packages scripts tests",
+    "test": "node node_modules/vitest/vitest.mjs run --reporter=verbose",
+    "test:unit": "node node_modules/vitest/vitest.mjs run tests/unit --reporter=verbose",
+    "test:security": "node node_modules/vitest/vitest.mjs run tests/security --reporter=verbose",
+    "test:python": "node scripts/run-python.mjs -m pytest python/tests -q",
+    "lint:python": "node scripts/run-python.mjs -m ruff check python",
+    "test:e2e": "node scripts/run-e2e.mjs",
+    "test:dsh": "node tests/e2e/dsh-integration.mjs",
+    "benchmark:offline": "node scripts/run-benchmark.mjs",
+    "doctor": "node dist/bundle/cli.js doctor",
+    "status": "node dist/bundle/cli.js status",
+    "serve": "node dist/bundle/cli.js serve",
+    "install:plugin": "node dist/bundle/cli.js install",
+    "uninstall:plugin": "node dist/bundle/cli.js uninstall",
+    "backup": "node dist/bundle/cli.js backup",
+    "screenshots": "node tests/e2e/screenshots.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "playwright": "^1.64.1",
+    "@types/node": "^24.9.2",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.0.4",
+    "esbuild": "^0.25.11",
+    "jsdom": "^27.0.0",
+    "oxlint": "^1.28.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.8",
+    "vitest": "^3.2.4",
+    "zod": "^4.1.12"
+  }
+}
+
+
+
+
+

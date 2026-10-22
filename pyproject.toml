@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hymem-worker"
+version = "0.1.0"
+description = "Loopback HTTP worker that adapts the hy-memory SDK for DSH HyMemory."
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+# The worker itself is stdlib-only: the hy-memory SDK is an optional extra so the
+# deterministic mock engine can run on a bare interpreter.
+dependencies = []
+
+[project.optional-dependencies]
+hy = ["hy-memory==2.0.4"]
+test = ["pytest>=8", "ruff>=0.6"]
+
+[project.scripts]
+hymem-worker = "hymem_worker.__main__:main"
+
+[tool.setuptools]
+package-dir = { "" = "python" }
+zip-safe = false
+
+[tool.setuptools.packages.find]
+where = ["python"]
+include = ["hymem_worker*"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["python/tests"]
+pythonpath = ["python"]
+addopts = "-ra --strict-markers --strict-config"
+filterwarnings = ["error::DeprecationWarning:hymem_worker.*"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["python"]
+extend-exclude = [".upstream", ".venv", "node_modules", "artifacts", "dist", "build"]
+
+[tool.ruff.lint]
+# ``N`` is enabled so the stdlib handler method names (``do_GET``) stay
+# explicitly suppressed instead of relying on an unenforced convention.
+select = ["E4", "E7", "E9", "F", "I", "UP", "B", "SIM", "RUF", "N"]
+
+[tool.ruff.lint.per-file-ignores]
+# Frozen reference script: a working offline proof of the SDK kept verbatim.
+"python/research_smoke.py" = ["UP006", "UP009", "UP035", "RUF100"]
+"python/tests/*" = ["S101"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
