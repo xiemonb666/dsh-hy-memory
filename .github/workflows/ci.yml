@@ -26,7 +26,7 @@ jobs:
     env:
       UV_PROJECT_ENVIRONMENT: ${{ github.workspace }}/.venv
       HYMEM_PYTHON: ${{ github.workspace }}/${{ matrix.python-path }}
-      HYMEM_BUNDLE_DIR: ${{ runner.temp }}/hymem-bundle
+      HYMEM_BUNDLE_DIR: ${{ github.workspace }}/artifacts/ci-bundle
     steps:
       - uses: actions/checkout@v6
 
